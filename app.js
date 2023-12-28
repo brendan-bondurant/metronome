@@ -8,7 +8,6 @@ const startStopBtn = document.querySelector('.start-stop');
 const subtractBeats = document.querySelector('.subtract-beats');
 const addBeats = document.querySelector('.add-beats');
 const measureCount = document.querySelector('.measure-count');
-
 const click1 = new Audio('clickhi.mp3');
 const click2 = new Audio('clicklo.mp3');
 
@@ -19,54 +18,48 @@ let count = 0;
 let isRunning = false;
 
 function setupEventListeners() {
-  decreaseTempoBtn.addEventListener('click', () => {
-      bpm--;
-      updateMetronome();
-      validateTempo();
-  });
-
-  increaseTempoBtn.addEventListener('click', () => {
-      bpm++;
-      updateMetronome();
-      validateTempo();
-  });
-
+  decreaseTempoBtn.addEventListener('click', updateBPM(-1));
+  increaseTempoBtn.addEventListener('click', updateBPM(1));
   tempoSlider.addEventListener('input', () => {
-      bpm = tempoSlider.value;
-      updateMetronome();
+    bpm = Math.max(30, Math.min(210, tempoSlider.value));
+    updateMetronome();
   });
-
-  subtractBeats.addEventListener('click', () => {
-      if (beatsPerMeasure <= 2) { return; }
-      beatsPerMeasure--;
-      displayBeatsRange(beatsPerMeasure);
-      count = 0;
-  });
-
-  addBeats.addEventListener('click', () => {
-      if (beatsPerMeasure >= 12) { return; }
-      beatsPerMeasure++;
-      displayBeatsRange(beatsPerMeasure);
-      count = 0;
-  });
-
-  startStopBtn.addEventListener('click', () => {
-      count = 0;
-      if (!isRunning) {
-          metronome.start();
-          isRunning = true;
-          startStopBtn.textContent = 'Stop';
-      } else {
-          metronome.stop();
-          isRunning = false;
-          startStopBtn.textContent = 'Start';
-      }
-  });
+  subtractBeats.addEventListener('click', updateBeatsPerMeasure(-1));
+  addBeats.addEventListener('click', updateBeatsPerMeasure(1));
+  startStopBtn.addEventListener('click', toggleMetronome);
 }
-
+function updateBPM(change) {
+  return () => {
+      const newBPM = bpm + change;
+      if (newBPM >= 30 && newBPM <= 210) {
+          bpm = newBPM;
+          updateMetronome();
+      }
+  };
+}
+function updateBeatsPerMeasure(change) {
+  return () => {
+      const newBeatsPerMeasure = beatsPerMeasure + change;
+      if (newBeatsPerMeasure >= 2 && newBeatsPerMeasure <= 12) {
+          beatsPerMeasure = newBeatsPerMeasure;
+          displayBeatsRange(beatsPerMeasure);
+          count = 0;
+      }
+  };
+}
+function toggleMetronome() {
+  count = 0;
+  if (!isRunning) {
+      metronome.start();
+      isRunning = true;
+      startStopBtn.textContent = 'Stop';
+  } else {
+      metronome.stop();
+      isRunning = false;
+      startStopBtn.textContent = 'Start';
+  }
+}
 setupEventListeners();
-
-
 
 function updateMetronome() {
   tempoDisplay.textContent = bpm;
@@ -75,30 +68,40 @@ function updateMetronome() {
   updateColorBasedOnBPM(bpm);
 }
 
-function validateTempo() {
-  if (bpm >= 210) { return }
-  if (bpm <= 30) { return }
-}
-
 function playClick() {
-  console.log(count);
-  if (count === beatsPerMeasure) {
-    count = 0;
-  }
-
+  resetCountIfNeeded();
   const currentBeatId = `beat-${count + 1}`;
   const currentBeatElement = document.querySelector(`#${currentBeatId}`);
   circleBeat(currentBeatElement);
-
-  if (beatStates[currentBeatId] === 'click1') {
-    click1.play();
-    click1.currentTime = 0;
-  } else if (beatStates[currentBeatId] === 'click2') {
-    click2.play();
-    click2.currentTime = 0;
-  }
-  
+  playAppropriateClick(currentBeatId);
   count++;
+}
+
+function resetCountIfNeeded() {
+  if (count === beatsPerMeasure) {
+    count = 0;
+  }
+}
+
+function playAppropriateClick(beatId) {
+  const beatState = beatStates[beatId];
+  if (!beatState) return;
+
+  switch (beatState) {
+    case 'click1':
+      playSound(click1);
+      break;
+    case 'click2':
+      playSound(click2);
+      break;
+    case 'neutral':
+      break;
+  }
+}
+
+function playSound(sound) {
+  sound.play();
+  sound.currentTime = 0;
 }
 
 function circleBeat(element) { 
@@ -108,15 +111,6 @@ function circleBeat(element) {
       element.classList.remove('circle');
     }, 300);
   }
-}
-
-function flashBeat(element) {
-if (element) {
-  element.style.color = 'black'; 
-  setTimeout(() => {
-    element.style.color = ''; 
-  }, 100);
-}
 }
 
 const metronome = new Timer(playClick, 60000 / bpm, { immediate: true }); 
@@ -142,7 +136,7 @@ function displayBeatsRange(beatsPerMeasure) {
   measureCount.innerHTML = beatsRange.trim(); 
   for (let i = 1; i <= beatsPerMeasure; i++) {
     const beatElement = document.querySelector(`#beat-${i}`);
-    updateBeatAppearance(`beat-${i}`); // Apply initial state
+    updateBeatAppearance(`beat-${i}`); 
     beatElement.addEventListener('click', () => toggleBeatState(`beat-${i}`));
   }
 }
