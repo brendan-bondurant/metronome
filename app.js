@@ -18,49 +18,54 @@ let beatsPerMeasure = 4;
 let count = 0;
 let isRunning = false;
 
-decreaseTempoBtn.addEventListener('click', () => {
-  bpm--;
-  updateMetronome()
-  validateTempo()
-});
+function setupEventListeners() {
+  decreaseTempoBtn.addEventListener('click', () => {
+      bpm--;
+      updateMetronome();
+      validateTempo();
+  });
 
-increaseTempoBtn.addEventListener('click', () => {
-  bpm++;
-  updateMetronome()
-  validateTempo()
-});
+  increaseTempoBtn.addEventListener('click', () => {
+      bpm++;
+      updateMetronome();
+      validateTempo();
+  });
 
-tempoSlider.addEventListener('input', () => {
-  bpm = tempoSlider.value;
-  updateMetronome()
-});
+  tempoSlider.addEventListener('input', () => {
+      bpm = tempoSlider.value;
+      updateMetronome();
+  });
 
-subtractBeats.addEventListener('click', () => {
-  if (beatsPerMeasure <= 2) { return };
-  beatsPerMeasure--;
-  displayBeatsRange(beatsPerMeasure);
-  count = 0;
-});
+  subtractBeats.addEventListener('click', () => {
+      if (beatsPerMeasure <= 2) { return; }
+      beatsPerMeasure--;
+      displayBeatsRange(beatsPerMeasure);
+      count = 0;
+  });
 
-addBeats.addEventListener('click', () => {
-  if (beatsPerMeasure >= 12) { return };
-  beatsPerMeasure++;
-  displayBeatsRange(beatsPerMeasure);
-  count = 0;
-});
+  addBeats.addEventListener('click', () => {
+      if (beatsPerMeasure >= 12) { return; }
+      beatsPerMeasure++;
+      displayBeatsRange(beatsPerMeasure);
+      count = 0;
+  });
 
-startStopBtn.addEventListener('click', () => {
-  count = 0;
-  if (!isRunning) {
-      metronome.start();
-      isRunning = true;
-      startStopBtn.textContent = 'Stop';
-  } else {
-      metronome.stop();
-      isRunning = false;
-      startStopBtn.textContent = 'Start';
-  }
-});
+  startStopBtn.addEventListener('click', () => {
+      count = 0;
+      if (!isRunning) {
+          metronome.start();
+          isRunning = true;
+          startStopBtn.textContent = 'Stop';
+      } else {
+          metronome.stop();
+          isRunning = false;
+          startStopBtn.textContent = 'Start';
+      }
+  });
+}
+
+setupEventListeners();
+
 
 
 function updateMetronome() {
@@ -74,42 +79,6 @@ function validateTempo() {
   if (bpm >= 210) { return }
   if (bpm <= 30) { return }
 }
-
-// function playClick() {
-  // const currentBeatElement = document.querySelector('.current-beat');
-  // console.log(count);
-  // if (count === beatsPerMeasure) {
-  //   count = 0;
-  // }
-
-//   function playClick() {
-//     console.log(count);
-//     if (count === beatsPerMeasure) {
-//       count = 0;
-//     }
-//     const currentBeatId = `beat-${count + 1}`;
-//     const currentBeatElement = document.querySelector(`#${currentBeatId}`);
-//     circleBeat(currentBeatElement);
-//     if (beatStates[currentBeatId] === 'click1') {
-//       click1.play();
-//       click1.currentTime = 0;
-//     } else if (beatStates[currentBeatId] === 'click2') {
-//       click2.play();
-//       click2.currentTime = 0;
-//     }
-//     count++;
-//   }
-//     const currentBeatElement = document.querySelector(`#beat-${count + 1}`);
-//     circleBeat(currentBeatElement);
-//     if (count === 0) {
-//     click1.play();
-//     click1.currentTime = 0;
-// }   
-//     else {
-//     click2.play();
-//     click2.currentTime = 0;
-// }
-// count ++;
 
 function playClick() {
   console.log(count);
@@ -142,11 +111,6 @@ function circleBeat(element) {
 }
 
 function flashBeat(element) {
-//   element.classList.add('flash');
-//   setTimeout(() => {
-//     element.classList.remove('flash');
-//   }, 100);
-// }
 if (element) {
   element.style.color = 'black'; 
   setTimeout(() => {
@@ -177,7 +141,6 @@ function displayBeatsRange(beatsPerMeasure) {
   }
   measureCount.innerHTML = beatsRange.trim(); 
   for (let i = 1; i <= beatsPerMeasure; i++) {
-    // document.querySelector(`#beat-${i}`).addEventListener('click', () => toggleBeatState(`beat-${i}`));
     const beatElement = document.querySelector(`#beat-${i}`);
     updateBeatAppearance(`beat-${i}`); // Apply initial state
     beatElement.addEventListener('click', () => toggleBeatState(`beat-${i}`));
