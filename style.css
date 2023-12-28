@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+:root {
+  --dynamic-color: #7f007f;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--dynamic-color);
+  user-select: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.metronome {
+  border: 0px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 250px;
+  justify-content: space-between;
+}
+
+.bpm-display {
+  width: 100%;
+  text-align: center;
+  color: var(--dynamic-color);
+  font-weight: bold;
+}
+.bpm-display .tempo {
+  font-size: 4em;
+}
+
+.tempo-settings {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tempo-settings .adjust-tempo-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  border-radius: 50%;
+
+  text-align: center;
+  cursor: pointer;
+}
+.tempo-settings .adjust-tempo-btn:hover {
+  background: var(--dynamic-color);
+  color: white;
+  }
+
+.tempo-settings .decrease-tempo {
+  line-height: 30px;
+}
+.tempo-settings .increase-tempo {
+  line-height: 30px;
+}
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: transparent;
+  width: 75%;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--dynamic-color);
+  cursor: pointer;
+  margin-top: -8px;
+}
+input[type=range]::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--dynamic-color);
+  cursor: pointer;
+
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px; 
+  background: gray;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 100%;
+  background: gray;
+}
+
+.start-stop {
+  width: 50px;
+  height: 50px;
+  font-size: 0.7em;
+  text-align: center;
+  background: var(--dynamic-color);
+  color: var(--dynamic-color);
+  border-radius: 50%;
+  color: white;
+  line-height: 50px;
+  margin: 0 auto;
+}
+
+.start-stop:hover {
+  background: black;
+
+}
+
+.measures .measure-count {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.steppers {
+  display: flex;
+  justify-content: center;
+  width: 100%; 
+  font-size: 1.5em;
+}
+
+.stepper {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.stepper:hover {
+  background: var(--dynamic-color);
+  color: white;
+}
+.beat-number:hover {
+  cursor: pointer;
+}
+
+.measures .add-beats {
+  line-height: 20px;
+}
+.measures .subtract-beats {
+  line-height: 20px;
+}
+
+.beats-per-measure-text {
+  text-align: center;
+  font-size: 0.5em;
+}
+
+.current-beat {
+  text-align: center;
+  font-size: 2em;
+  margin: 20px 0;
+  color: var(--dynamic-color);
+}
+
+/* @keyframes flashAnimation {
+  from {background-color: yellow; }
+  to {background-color: transparent; }
+} */
+
+.flash {
+  animation: flashAnimation 0.1s ease;
+}
+
+.beat-container {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; 
+  height: 40px; 
+}
+
+.beat-number.circle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 2px solid var(--dynamic-color);
+  background-color: var(--dynamic-color);
+  z-index: -1; 
+  box-sizing: border-box;
+}
+
+
+.beat-number {
+  position: relative;
+  line-height: 40px; 
+  text-align: center;
+  z-index: 1;
+}
+
+.beat-number.circle, .beat-number.click1.circle, .beat-number.click2.circle, .beat-number.neutral.circle {
+  color: white;
+  z-index: 2;
+}
+
+.beat-number.click1 {
+  font-size: 1.4em; 
+  color: var(--dynamic-color);
+}
+
+.beat-number.click2 {
+  font-size: 1em; 
+  color: var(--dynamic-color);
+  opacity: .75;
+}
+
+.beat-number.neutral {
+  font-size: .5em;
+  color: var(--dynamic-color);
+  opacity: .75;
+}
+
+.beat-number {
+  transition: font-size .1s, color 0.01s;
+}
