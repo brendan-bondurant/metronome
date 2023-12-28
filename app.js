@@ -69,6 +69,7 @@ function updateMetronome() {
 }
 
 function playClick() {
+
   resetCountIfNeeded();
   const currentBeatId = `beat-${count + 1}`;
   const currentBeatElement = document.querySelector(`#${currentBeatId}`);

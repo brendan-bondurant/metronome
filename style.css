@@ -7,6 +7,10 @@
   margin: 0;
 }
 
+
+
+
+
 body {
   font-family: 'Roboto', sans-serif;
   color: var(--dynamic-color);
@@ -47,7 +51,7 @@ body {
 .tempo-settings .adjust-tempo-btn {
   width: 30px;
   height: 30px;
-  font-size: 40px;
+  font-size: 30px;
   border-radius: 50%;
 
   text-align: center;
@@ -175,15 +179,6 @@ input[type=range]::-moz-range-track {
   font-size: 2em;
   margin: 20px 0;
   color: var(--dynamic-color);
-}
-
-/* @keyframes flashAnimation {
-  from {background-color: yellow; }
-  to {background-color: transparent; }
-} */
-
-.flash {
-  animation: flashAnimation 0.1s ease;
 }
 
 .beat-container {
