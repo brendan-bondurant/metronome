@@ -1,4 +1,6 @@
 import Timer from './timer.js';
+(function() {
+
 
 const tempoDisplay = document.querySelector('.tempo');
 const decreaseTempoBtn = document.querySelector('.decrease-tempo');
@@ -168,3 +170,4 @@ function updateBeatAppearance(beatId) {
 
 displayBeatsRange(beatsPerMeasure);
 
+})();
