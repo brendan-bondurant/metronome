@@ -1,3 +1,12 @@
+Installation
+1. You need to have Node.js installed
+2. Clone the repository
+3. Navigate to your repository
+4. run npm install to add the dependencies
+5. to run the application use 'npm start' or 'node server.js'
+6. In your browser, go to http://localhost:3000
+
+
 This was my first foray into using JavaScript. I had some experience with HTML and CSS, but this was also a good way to learn more about that.
 
 I had two weeks off from class and wanted to play around with some apps I had been wanting as a music teacher, designing them to my preference.
